@@ -31,8 +31,9 @@
     
     <!-- Dependencias de Pruebas (JUnit 5, Cucumber, Selenium) -->
     <dependency>
+        <!-- ¡CORREGIDO! Usamos cucumber-java para que entienda español -->
         <groupId>io.cucumber</groupId>
-        <artifactId>cucumber-java-en</artifactId>
+        <artifactId>cucumber-java</artifactId>
         <version>7.13.0</version>
         <scope>test</scope>
     </dependency>
@@ -93,18 +94,15 @@
   </build>
 
   <!-- SECCIÓN PARA ARTIFACTORY -->
-  <!-- Esto le dice a Maven a qué "bodega" debe enviar el paquete final (.war) -->
   <distributionManagement>
       <repository>
           <id>central</id>
           <name>libs-release-local</name>
-          <!-- ¡IMPORTANTE! Asegúrate de que esta URL sea la correcta para tu Artifactory -->
           <url>http://localhost:8081/artifactory/libs-release-local</url>
       </repository>
       <snapshotRepository>
           <id>snapshots</id>
           <name>libs-snapshot-local</name>
-          <!-- ¡IMPORTANTE! Asegúrate de que esta URL sea la correcta para tu Artifactory -->
           <url>http://localhost:8081/artifactory/libs-snapshot-local</url>
       </snapshotRepository>
   </distributionManagement>
