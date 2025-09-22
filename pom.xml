@@ -10,20 +10,7 @@
   <url>http://maven.apache.org</url>
   
   
-  <distributionManagement>
-    <repository>
-        <id>central</id>
-        <name>libs-release-local</name>
-        <!-- ¡IMPORTANTE! Reemplaza esta URL con la de tu Artifactory -->
-        <url>http://localhost:8081/artifactory/libs-release-local</url>
-    </repository>
-    <snapshotRepository>
-        <id>snapshots</id>
-        <name>libs-snapshot-local</name>
-        <!-- ¡IMPORTANTE! Reemplaza esta URL con la de tu Artifactory -->
-        <url>http://localhost:8081/artifactory/libs-snapshot-local</url>
-    </snapshotRepository>
-</distributionManagement>
+ 
   
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -118,4 +105,19 @@
       </plugin>
     </plugins>
   </build>
+  <distributionManagement>
+    <repository>
+        <id>central</id>
+        <name>libs-release-local</name>
+        <!-- ¡IMPORTANTE! Asegúrate de que esta URL sea la correcta para tu Artifactory -->
+        <url>http://localhost:8081/artifactory/libs-release-local</url>
+    </repository>
+    <snapshotRepository>
+        <id>snapshots</id>
+        <name>libs-snapshot-local</name>
+        <!-- ¡IMPORTANTE! Asegúrate de que esta URL sea la correcta para tu Artifactory -->
+        <url>http://localhost:8081/artifactory/libs-snapshot-local</url>
+    </snapshotRepository>
+</distributionManagement>
 </project>
+
