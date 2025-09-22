@@ -1,0 +1,22 @@
+Archivos compilados de Java
+*.class
+
+Directorio de salida de Maven
+/target/
+
+Archivos de configuración de Eclipse
+.classpath
+.project
+.settings/
+
+Archivos de configuración del IDE
+.idea/
+*.iml
+*.iws
+
+Archivos de log
+*.log
+
+Archivos del sistema operativo
+.DS_Store
+Thumbs.db
