@@ -4,8 +4,8 @@ pipeline {
     stages {
         stage('Checkout from GitHub') {
             steps {
-                // Descarga el código desde tu repositorio de GitHub
-                git 'https://github.com/Ferspinoza/proyecto-banco-platinum.git'
+                // Descarga el código desde la rama 'main' de tu repositorio
+                git branch: 'main', url: 'https://github.com/Ferspinoza/proyecto-banco-platinum.git'
             }
         }
         stage('Build with Maven') {
@@ -31,4 +31,3 @@ pipeline {
         }
     }
 }
-
