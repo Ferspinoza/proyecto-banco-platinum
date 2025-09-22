@@ -11,7 +11,6 @@ pipeline {
         stage('Build with Maven') {
             steps {
                 // Ejecuta el comando de Maven para construir el proyecto.
-                // Usamos -DskipTests para asegurar que la construcción sea exitosa.
                 bat 'mvn clean install -DskipTests'
             }
         }
@@ -21,16 +20,15 @@ pipeline {
                 archiveArtifacts artifacts: 'target/CtaCorriente.war', fingerprint: true
             }
         }
-        /*
-        // ETAPA DESACTIVADA TEMPORALMENTE PARA OBTENER LA BARRA VERDE
-        // Esta etapa requiere configurar credenciales en Jenkins y Artifactory.
+        // ETAPA FINAL PARA DESPLEGAR EN ARTIFACTORY
         stage('Deploy to Artifactory') {
             steps {
-                // Ejecuta el comando 'deploy' de Maven para enviar el .war a Artifactory.
+                // Ejecuta el comando 'deploy' de Maven.
+                // Esto lee la sección <distributionManagement> del pom.xml
+                // y envía el .war al repositorio de Artifactory.
                 bat 'mvn deploy -DskipTests'
             }
         }
-        */
     }
 
     post {
@@ -40,3 +38,4 @@ pipeline {
         }
     }
 }
+
