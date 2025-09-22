@@ -30,4 +30,15 @@ pipeline {
             cleanWs()
         }
     }
+
+stage('Deploy to Artifactory') {
+    steps {
+        // Ejecuta el comando 'deploy' de Maven.
+        // Esto lee la sección <distributionManagement> del pom.xml
+        // y envía el .war al repositorio de Artifactory.
+        bat 'mvn deploy -DskipTests'
+    }
+}
+
+
 }
