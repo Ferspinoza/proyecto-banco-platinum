@@ -1,42 +1,55 @@
 pipeline {
-    agent any
+  agent any
 
-    stages {
-        stage('Checkout from GitHub') {
-            steps {
-                // Descarga el código desde la rama 'main' de tu repositorio
-                git branch: 'main', url: 'https://github.com/Ferspinoza/proyecto-banco-platinum.git'
-            }
-        }
-        stage('Build with Maven') {
-            steps {
-                // Ejecuta el comando de Maven para construir el proyecto.
-                // Usamos -DskipTests para asegurar que la construcción sea exitosa.
-                bat 'mvn clean install -DskipTests'
-            }
-        }
-        stage('Archive Artifact') {
-            steps {
-                // Guarda el archivo .war generado.
-                archiveArtifacts artifacts: 'target/CtaCorriente.war', fingerprint: true
-            }
-        }
-        /*
-        // ETAPA DESACTIVADA TEMPORALMENTE PARA OBTENER LA BARRA VERDE
-        // Esta etapa requiere configurar credenciales en Jenkins y Artifactory.
-        stage('Deploy to Artifactory') {
-            steps {
-                // Ejecuta el comando 'deploy' de Maven para enviar el .war a Artifactory.
-                bat 'mvn deploy -DskipTests'
-            }
-        }
-        */
+  stages {
+    stage('Checkout from GitHub') {
+      steps {
+        git branch: 'main', url: 'https://github.com/Ferspinoza/proyecto-banco-platinum.git'
+      }
     }
 
-    post {
+    stage('Build with Maven') {
+      steps {
+        bat 'mvn -U -B clean package -DskipTests'
+      }
+      post {
         always {
-            // Buena práctica: Limpia el espacio de trabajo después de cada construcción.
-            cleanWs()
+          archiveArtifacts artifacts: 'target/CtaCorriente.war', fingerprint: true
         }
+      }
     }
+
+    // 3.3 Etapa de pruebas: genera XML para JUnit en Jenkins
+    stage('Run Unit Tests (JUnit XML)') {
+      steps {
+        // Ejecuta un test seguro para generar XML (ajusta o quita -Dtest cuando tengas tu suite)
+        bat 'mvn -B -Dtest=SanityTest test'
+      }
+      post {
+        always {
+          junit allowEmptyResults: true, testResults: '**/target/surefire-reports/*.xml'
+        }
+      }
+    }
+
+    // (Opcional) Deploy a Artifactory: descomenta cuando configures credenciales en Jenkins
+    /*
+    stage('Deploy to Artifactory') {
+      steps {
+        // Opción simple vía Maven (usa distributionManagement de tu pom + settings.xml)
+        bat 'mvn -B deploy -DskipTests'
+        // -- O BIEN --
+        // Opción plugin JFrog (si configuraste "JFrog Platform Instances"):
+        // rtUpload serverId: 'Artifactory Local', spec: '''{
+        //   "files":[{"pattern":"target/*.war","target":"libs-release-local/CtaCorriente/"}]
+        // }'''
+        // rtPublishBuildInfo serverId: 'Artifactory Local'
+      }
+    }
+    */
+  }
+
+  post {
+    always { cleanWs() }
+  }
 }
